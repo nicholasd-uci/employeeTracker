@@ -2,7 +2,7 @@ const { prompt } = require('inquirer')
 const mysql = require('mysql2')
 require('console.table')
 
-const db = mysql.createConnection('mysql://root:JavaScript${}535@localhost/employee_db')
+const db = mysql.createConnection('mysql://root:Javascript${}535@localhost/employee_db')
 
 const mainMenu = () => {
   prompt([
