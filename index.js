@@ -149,7 +149,7 @@ const updateEmployeeRole = () => {
   db.query('SELECT * FROM employee', (err, employees) => {
     if (err) { console.log(err) }
 
-    employees = employees.map(employee => ({
+      employees = employees.map(employee => ({
       name: `${employee.first_name} ${employee.last_name}`,
       value: employee.id
     }))
@@ -186,17 +186,56 @@ const updateEmployeeRole = () => {
   })
 }
 
-// const viewDepartments = () => {
 
-// }
+const viewDepartments = () => {
+  db.query(`
+    SELECT * FROM department
+  `, (err, department) => {
+    if (err) { console.log(err) }
+    console.table(department)
+    mainMenu()
+  })
+}
 
-// const addDepartment = () => {
 
-// }
+const addDepartment = () => {
+  db.query('SELECT * FROM department', (err, departments) => {
+    if (err) { console.log(err) }
 
-// const viewRoles = () => {
+    departments = departments.map(department => ({
+      name: department,
+      value: department.id
+    }))
 
-// }
+    prompt([
+        {
+          type: 'input',
+          name: 'department',
+          message: 'What is the new department name?'
+        },
+      ])
+        .then(department => {
+          db.query('INSERT INTO department SET ?', department, (err) => {
+            if (err) { console.log(err) }
+            console.log('Department Created!')
+            mainMenu()
+          })
+        })
+        .catch(err => console.log(err))
+    })
+  }
+
+
+
+const viewRoles = () => {
+  db.query(`
+    SELECT * FROM role
+  `, (err, role) => {
+    if (err) { console.log(err) }
+    console.table(role)
+    mainMenu()
+  })
+}
 
 // const addRole = () => {
 
