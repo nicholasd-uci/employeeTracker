@@ -168,13 +168,13 @@ const updateEmployeeRole = () => {
           input: 'list',
           name: 'employee',
           message: 'Which employee would you like to update?',
-          choice: employees
+          choices: employees
         },
         {
           input: 'list',
           name: 'role',
           message: 'What role is this employee now currently holding?',
-          choice: roles
+          choices: roles
         }
       ])
         .then(res => {
