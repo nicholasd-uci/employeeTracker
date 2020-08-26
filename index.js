@@ -1,5 +1,6 @@
 const { prompt } = require('inquirer')
 const mysql = require('mysql2')
+const inquirer = require('inquirer')
 require('console.table')
 
 const db = mysql.createConnection('mysql://root:Javascript${}535@localhost/employee_db')
@@ -144,8 +145,51 @@ const addEmployee = () => {
 }
 
 const updateEmployeeRole = () => {
+  console.log('Updating Employees')
+  db.query('SELECT * FROM employee', (err, employees) => {
+    if (err) { console.log(err) }
 
-}
+    employees = employees.map(employee => ({
+      name: `${employee.first_name} ${employee.last_name}`,
+      value: employee.id
+    }))
+
+    db.query('SELECT * FROM role', (err, role) => {
+      if (err) { console.log(err) }
+
+      roles = roles.map(role => ({
+        name: role.title,
+        value: role,id
+    }))
+
+  inquirer
+    prompt([
+      {
+        input: 'list',
+        name: 'departments',
+        message: 'Which department is the employee in?',
+        choice: departments
+      },
+      {
+        input: 'list',
+        name: 'employee',
+        message: 'Which employee would you like to update?',
+        choice: employees.departments
+      },
+      {
+        input: 'list',
+        name: 'role',
+        message: 'What role is this employee now currently holding?',
+        choice: role
+      }
+    ])
+    .then(res => {
+      db.query('UPDATE employee SET role_id = ? WHERE id = ?', [res.role, res.employee])
+      console.log('Employee has been updated!')
+    })
+    .catch(err => console.log(err))
+  })
+
 
 const viewDepartments = () => {
 
