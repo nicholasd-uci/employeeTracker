@@ -154,33 +154,27 @@ const updateEmployeeRole = () => {
       value: employee.id
     }))
 
-    db.query('SELECT * FROM role', (err, role) => {
+    db.query('SELECT * FROM role', (err, roles) => {
       if (err) { console.log(err) }
 
       roles = roles.map(role => ({
         name: role.title,
-        value: role, id
+        value: role.id
       }))
 
       inquirer
       prompt([
         {
           input: 'list',
-          name: 'departments',
-          message: 'Which department is the employee in?',
-          choice: departments
-        },
-        {
-          input: 'list',
           name: 'employee',
           message: 'Which employee would you like to update?',
-          choice: employees.departments
+          choice: employees
         },
         {
           input: 'list',
           name: 'role',
           message: 'What role is this employee now currently holding?',
-          choice: role
+          choice: roles
         }
       ])
         .then(res => {
