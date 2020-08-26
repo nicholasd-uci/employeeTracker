@@ -149,7 +149,7 @@ const updateEmployeeRole = () => {
   db.query('SELECT * FROM employee', (err, employees) => {
     if (err) { console.log(err) }
 
-      employees = employees.map(employee => ({
+    employees = employees.map(employee => ({
       name: `${employee.first_name} ${employee.last_name}`,
       value: employee.id
     }))
@@ -206,22 +206,22 @@ const addDepartment = () => {
     }))
 
     prompt([
-        {
-          type: 'input',
-          name: 'department',
-          message: 'What is the new department name?'
-        },
-      ])
-        .then(department => {
-          db.query('INSERT INTO department SET ?', department, (err) => {
-            if (err) { console.log(err) }
-            console.log('Department Created!')
-            mainMenu()
-          })
+      {
+        type: 'input',
+        name: 'department',
+        message: 'What is the new department name?'
+      },
+    ])
+      .then(department => {
+        db.query('INSERT INTO department SET ?', department, (err) => {
+          if (err) { console.log(err) }
+          console.log('Department Created!')
+          mainMenu()
         })
-        .catch(err => console.log(err))
-    })
-  }
+      })
+      .catch(err => console.log(err))
+  })
+}
 
 const viewRoles = () => {
   db.query(`
@@ -237,24 +237,15 @@ const addRole = () => {
   db.query('SELECT * FROM role', (err, roles) => {
     if (err) { console.log(err) }
 
-      roles = roles.map(role => ({
+    roles = roles.map(role => ({
       name: role.title,
       value: role.id
     }))
 
-    db.query('SELECT * FROM employee', (err, employees) => {
-
-      employees = employees.map(employee => ({
-        name: `${employee.first_name} ${employee.last_name}`,
-        value: employee.id
-      }))
-
-      employees.unshift({ name: 'None', value: null })
-
       prompt([
         {
           type: 'input',
-          name: 'addRole',
+          name: 'role',
           message: 'What is the new company role?'
         }
       ])
@@ -267,7 +258,6 @@ const addRole = () => {
         })
         .catch(err => console.log(err))
     })
-  })
 }
 
 mainMenu()
