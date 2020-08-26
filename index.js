@@ -186,7 +186,6 @@ const updateEmployeeRole = () => {
   })
 }
 
-
 const viewDepartments = () => {
   db.query(`
     SELECT * FROM department
@@ -196,7 +195,6 @@ const viewDepartments = () => {
     mainMenu()
   })
 }
-
 
 const addDepartment = () => {
   db.query('SELECT * FROM department', (err, departments) => {
@@ -225,8 +223,6 @@ const addDepartment = () => {
     })
   }
 
-
-
 const viewRoles = () => {
   db.query(`
     SELECT * FROM role
@@ -237,8 +233,41 @@ const viewRoles = () => {
   })
 }
 
-// const addRole = () => {
+const addRole = () => {
+  db.query('SELECT * FROM role', (err, roles) => {
+    if (err) { console.log(err) }
 
-// }
+      roles = roles.map(role => ({
+      name: role.title,
+      value: role.id
+    }))
+
+    db.query('SELECT * FROM employee', (err, employees) => {
+
+      employees = employees.map(employee => ({
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id
+      }))
+
+      employees.unshift({ name: 'None', value: null })
+
+      prompt([
+        {
+          type: 'input',
+          name: 'addRole',
+          message: 'What is the new company role?'
+        }
+      ])
+        .then(role => {
+          db.query('INSERT INTO role SET ?', role, (err) => {
+            if (err) { console.log(err) }
+            console.log('Role Created!')
+            mainMenu()
+          })
+        })
+        .catch(err => console.log(err))
+    })
+  })
+}
 
 mainMenu()
