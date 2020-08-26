@@ -105,7 +105,7 @@ const addEmployee = () => {
         name: `${employee.first_name} ${employee.last_name}`,
         value: employee.id
       }))
-      
+
       employees.unshift({ name: 'None', value: null })
 
       prompt([
@@ -159,52 +159,53 @@ const updateEmployeeRole = () => {
 
       roles = roles.map(role => ({
         name: role.title,
-        value: role,id
-    }))
+        value: role, id
+      }))
 
-  inquirer
-    prompt([
-      {
-        input: 'list',
-        name: 'departments',
-        message: 'Which department is the employee in?',
-        choice: departments
-      },
-      {
-        input: 'list',
-        name: 'employee',
-        message: 'Which employee would you like to update?',
-        choice: employees.departments
-      },
-      {
-        input: 'list',
-        name: 'role',
-        message: 'What role is this employee now currently holding?',
-        choice: role
-      }
-    ])
-    .then(res => {
-      db.query('UPDATE employee SET role_id = ? WHERE id = ?', [res.role, res.employee])
-      console.log('Employee has been updated!')
+      inquirer
+      prompt([
+        {
+          input: 'list',
+          name: 'departments',
+          message: 'Which department is the employee in?',
+          choice: departments
+        },
+        {
+          input: 'list',
+          name: 'employee',
+          message: 'Which employee would you like to update?',
+          choice: employees.departments
+        },
+        {
+          input: 'list',
+          name: 'role',
+          message: 'What role is this employee now currently holding?',
+          choice: role
+        }
+      ])
+        .then(res => {
+          db.query('UPDATE employee SET role_id = ? WHERE id = ?', [res.role, res.employee])
+          console.log('Employee has been updated!')
+        })
+        .catch(err => console.log(err))
     })
-    .catch(err => console.log(err))
   })
-
-
-const viewDepartments = () => {
-
 }
 
-const addDepartment = () => {
+// const viewDepartments = () => {
 
-}
+// }
 
-const viewRoles = () => {
+// const addDepartment = () => {
 
-}
+// }
 
-const addRole = () => {
+// const viewRoles = () => {
 
-}
+// }
+
+// const addRole = () => {
+
+// }
 
 mainMenu()
